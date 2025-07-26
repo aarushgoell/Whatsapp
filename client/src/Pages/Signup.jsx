@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 const Signup = () => {
   const { login } = useAuth();
@@ -39,7 +40,7 @@ const Signup = () => {
     }
 
     try {
-      const res = await axios.post("/api/signup", {
+      const res = await axios.post(`${API_BASE_URL}/api/signup`, {
         name: form.name,
         email: form.email,
         password: form.password,

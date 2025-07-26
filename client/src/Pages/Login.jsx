@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 const Login = () => {
   const { login } = useAuth(); // to save JWT
@@ -26,7 +27,7 @@ const Login = () => {
     e.preventDefault();
     try {
       // 4️⃣ Send login request
-      const res = await axios.post("/api/login", form);
+      const res = await axios.post(`${API_BASE_URL}/api/login`, form);
 
       // 5️⃣ Save token globally
       login(res.data.token);

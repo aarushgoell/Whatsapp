@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import socket from "../socket";
 import { useAuth } from "../context/AuthContext";
+import { API_BASE_URL } from "../config";
 
 import Sidebar from "../Components/Sidebar";
 import ChatHeader from "../Components/ChatHeader";
@@ -96,7 +97,7 @@ const ChatPage = ({ currentUserId, selectedUserId, setSelectedUserId }) => {
     const fetchMessages = async () => {
       try {
         console.log("Fetching messages for user:", selectedUserId);
-        const res = await axios.get(`/api/messages/${selectedUserId}`, {
+        const res = await axios.get(`${API_BASE_URL}/api/messages/${selectedUserId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -119,7 +120,7 @@ const ChatPage = ({ currentUserId, selectedUserId, setSelectedUserId }) => {
 
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("/api/users", {
+        const res = await axios.get(`${API_BASE_URL}/api/users`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
