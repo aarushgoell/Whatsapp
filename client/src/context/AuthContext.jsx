@@ -2,17 +2,27 @@ import { createContext, useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-const AuthContext = createContext();
+const AuthContext = createContext({
+  token: "",
+  user: null,
+  login: () => {},
+  logout: () => {},
+});
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
-
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (token) {
-      const userData = JSON.parse(atob(token.split(".")[1]));
-      setUser({ id: userData.id, email: userData.email });
+      try {
+        const userData = JSON.parse(atob(token.split(".")[1]));
+        setUser({ id: userData.id, email: userData.email });
+      } catch (error) {
+        console.error("Error parsing token:", error);
+        localStorage.removeItem("token");
+        setToken("");
+      }
     }
   }, [token]);
 

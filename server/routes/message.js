@@ -48,7 +48,7 @@ router.get("/:userId", authenticateToken, async (req, res) => {
   }
 
   res.status(200).json({
-    message,
+    messages: message,
   });
 });
 

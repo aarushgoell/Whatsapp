@@ -1,10 +1,15 @@
 // import "./App.css";
-import { Navigate, Route, Router, Routes } from "react-router-dom";
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import ChatPage from "./Pages/ChatPage";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
+import { useState } from "react";
 
 function App() {
-  const { user } = useAuth();
+  const auth = useAuth();
+  const user = auth?.user;
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   return (
     <Router>
@@ -18,7 +23,11 @@ function App() {
           path="/chat"
           element={
             user ? (
-              <ChatPage currentUserId={user.id} />
+              <ChatPage 
+                currentUserId={user.id} 
+                selectedUserId={selectedUserId}
+                setSelectedUserId={setSelectedUserId}
+              />
             ) : (
               <Navigate to="/login" />
             )

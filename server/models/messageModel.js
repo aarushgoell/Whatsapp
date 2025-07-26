@@ -8,12 +8,14 @@ async function saveMessage(senderId, receiverId, message) {
 
   try {
     const [result] = await db.query(sql, values);
-    return {
-      id: result.insertId,
-      senderId,
-      receiverId,
-      message,
-    };
+    
+    // Get the saved message with timestamp
+    const [savedMessage] = await db.query(
+      "SELECT * FROM messages WHERE id = ?",
+      [result.insertId]
+    );
+    
+    return savedMessage[0];
   } catch (err) {
     console.error("Error saving message:", err);
     return { error: "Failed to save message" };
